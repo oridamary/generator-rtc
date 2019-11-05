@@ -1,0 +1,14 @@
+{
+  "name": "generator-rtc",
+  "version": "0.1.0",
+  "description": "This is a tool to create react components with material ui typescript",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^4.2.0"
+  }
+}
