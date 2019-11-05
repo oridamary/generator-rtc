@@ -6,8 +6,17 @@
     "generators"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "react",
+    "react-typescript",
+    "material-ui"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daruj/generator-rtc.git"
+  },
+  "author": "Damian Aruj <aruj.damian@gmail.com>",
   "dependencies": {
     "yeoman-generator": "^4.2.0"
   }
