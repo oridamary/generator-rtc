@@ -1,6 +1,8 @@
 var Generator = require('yeoman-generator')
 var mkdirp = require('mkdirp')
 
+const DEFAULT_SRC_PATH = "src/components/";
+
 module.exports = class extends Generator {
   prompting() {
     return this.prompt([
@@ -14,24 +16,43 @@ module.exports = class extends Generator {
           }
           return 'Please add a name for your new page'
         }
+      },
+      {
+        type: 'input',
+        name: 'path',
+        message: 'Where should this component be saved? ["src/components"]',
+        validate: str => {
+          return true
+        }
       }
     ]).then(answers => {
+
+      console.log("yoooo sup");
+      if(answers.path.trim() == "") {
+        answers.path = DEFAULT_SRC_PATH;
+      } else if(answers.path.substring(-1) != "/") {
+        answers.path += "/"
+      }
+
+      console.log(answers);
+
       this.answers = {
-        name: answers.name
+        name: answers.name,
+        path: answers.path
       }
     })
   }
 
   writing() {
-    const { name } = this.answers
+    const { name, path } = this.answers
     const componentName = name.charAt(0).toUpperCase() + name.slice(1)
     // create folder project
-    mkdirp(`src/App/SharedComponents/${componentName}`)
+    mkdirp(`${path}${componentName}`)
     // copy component into the components folder
     this.fs.copyTpl(
       this.templatePath('_component.tsx'),
       this.destinationPath(
-        `src/App/SharedComponents/${componentName}/${componentName}.tsx`
+        `${path}${componentName}/${componentName}.tsx`
       ),
       {
         component: componentName
@@ -41,7 +62,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('_types.ts'),
       this.destinationPath(
-        `src/App/SharedComponents/${componentName}/types.ts`
+        `${path}${componentName}/types.ts`
       ),
       {
         component: componentName
@@ -51,24 +72,26 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('_index.tsx'),
       this.destinationPath(
-        `src/App/SharedComponents/${componentName}/index.tsx`
+        `${path}${componentName}/index.tsx`
       ),
       {
         component: componentName
       }
     )
     // copy styles.scss
-    this.fs.copyTpl(
+    // OD - skipping for now
+    /*this.fs.copyTpl(
       this.templatePath('_styles.ts'),
       this.destinationPath(
-        `src/App/SharedComponents/${componentName}/styles.ts`
+        `${path}${componentName}/styles.ts`
       )
-    )
+    )*/
+    
     // copy unit test.js
     this.fs.copyTpl(
       this.templatePath('_test.tsx'),
       this.destinationPath(
-        `src/App/SharedComponents/${componentName}/${componentName}.test.tsx`
+        `${path}${componentName}/${componentName}.test.tsx`
       ),
       {
         component: componentName
